@@ -57,4 +57,16 @@ df_yout['dislike_rate'] =  df_yout ['dislikes'] / df_yout['views'] * 100
 df_yout['comment_rate'] =  df_yout ['comment_count'] / df_yout['views'] * 100
 
 df_yout['like_to_dislike'] =  df_yout ['likes'] / df_yout['dislikes']
-print(df_yout['like_to_dislike'])
+#print(df_yout['like_to_dislike'])
+
+df_yout['area'] = df_yout['views'] / 100000
+
+def convert_to_list(input):
+    output = []
+    for item in input:
+        output += [item]
+    return output
+
+#plt.scatter(convert_to_list(df_yout['likes_log']),convert_to_list(df_yout['dislikes_log']),convert_to_list(df_yout['area']),"blue",alpha = 0.1)
+plt.scatter(df_yout['views'],df_yout['like_to_dislike'],1,"green")
+plt.show()
