@@ -20,7 +20,7 @@ vid_dict = defaultdict(list)
 url_list = url_list[1:]
 count = 0
 
-for i in range(150, 300):
+for i in range(300, 500):
     url = url_list[i]
     vid_dict[url] = []
     try:
