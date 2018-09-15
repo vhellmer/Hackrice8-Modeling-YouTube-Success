@@ -20,7 +20,8 @@ vid_dict = defaultdict(list)
 url_list = url_list[1:]
 count = 0
 
-for url in url_list:
+for i in range(0, 100):
+    url = url_list[i]
     driver.get("https://www.youtube.com/watch?v=" + url)
     vid_dict[url] = []
 
@@ -30,6 +31,7 @@ for url in url_list:
         views = driver.find_element_by_xpath('//*[@id="count"]/yt-view-count-renderer/span[1]').text
         vid_dict[url].append(str(views).split(" ")[0])
     except:
+        # break
         print("views failed: ", url)
         vid_dict[url].append(str(0))
 
@@ -59,10 +61,7 @@ for url in url_list:
     except:
         print("comments failed: ", url)
         vid_dict[url].append(str(0))
-    count = count + 1
-    print(vid_dict)
-    if count == 3:
-        break
+
 
 csv_file = open('new_vid_data.csv', 'w')
 writer = csv.writer(csv_file)
