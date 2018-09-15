@@ -5,36 +5,53 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from collections import defaultdict
 
-
+# List that contains all url id information from videos
 url_list = []
 with open('USvideos.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for row in csv_reader:
         url_list.append(row[0])
+url_list = url_list[1:]
 
 
 # Opens chrome (MUST have selenium plugin in PATH or will cause an error)
 driver = webdriver.Chrome()
 
+# Default dict of type list that will contain key of vid_id and value of array views, likes, dislikes, comment_count
 vid_dict = defaultdict(list)
-url_list = url_list[1:]
-count = 0
 
-for i in range(0, 100):
+# Goes through a section of urls in list
+for i in range(1500, 2000):
+
     url = url_list[i]
-    driver.get("https://www.youtube.com/watch?v=" + url)
     vid_dict[url] = []
 
+    # Tries to get link, or continues if fails
+    try:
+        driver.get("https://www.youtube.com/watch?v=" + url)
+    except:
+        print("website failed to load")
+        vid_dict[url].append(str(0))
+        vid_dict[url].append(str(0))
+        vid_dict[url].append(str(0))
+        vid_dict[url].append(str(0))
+        continue
+
+    # Tries to get views, fails if video is taken down
     try:
         element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="count"]/yt-view-count-renderer/span[1]'))
         wait(driver, 5).until(element_present)
         views = driver.find_element_by_xpath('//*[@id="count"]/yt-view-count-renderer/span[1]').text
         vid_dict[url].append(str(views).split(" ")[0])
     except:
-        # break
         print("views failed: ", url)
         vid_dict[url].append(str(0))
+        vid_dict[url].append(str(0))
+        vid_dict[url].append(str(0))
+        vid_dict[url].append(str(0))
+        continue
 
+    # Tries to get likes
     try:
         element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]/a'))
         wait(driver, 5).until(element_present)
@@ -44,6 +61,7 @@ for i in range(0, 100):
         print("likes failed: ", url)
         vid_dict[url].append(str(0))
 
+    # Tries to get dislikes
     try:
         element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[2]/a'))
         wait(driver, 5).until(element_present)
@@ -53,6 +71,7 @@ for i in range(0, 100):
         print("dislikes failed: ", url)
         vid_dict[url].append(str(0))
 
+    # Tries to get comment_count, may fail if comments are disabled
     try:
         element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="count"]/yt-formatted-string'))
         wait(driver, 5).until(element_present)
@@ -62,10 +81,13 @@ for i in range(0, 100):
         print("comments failed: ", url)
         vid_dict[url].append(str(0))
 
-
-csv_file = open('new_vid_data.csv', 'w')
+# Appends to existing csv file
+csv_file = open('new_vid_data.csv', 'a')
 writer = csv.writer(csv_file)
-writer.writerow(["video id", "views", "likes", "dislikes", "comment_count"])
+
+#Add following line for header if making a new file:
+# writer.writerow(["video id", "views", "likes", "dislikes", "comment_count"])
+
 for key, value in vid_dict.items():
     value.insert(0, key)
     writer.writerow(value)
