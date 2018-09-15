@@ -99,17 +99,19 @@ def plot_curve(x_data, y_data, func):
 
 from sklearn import linear_model
 
-def mult_reg():
-    return null
-# =============================================================================
-# plt.figure(figsize=(6, 4))
-# plt.scatter(x_data, y_data, label='Data')
-# plt.plot(x_data, test_func(x_data, params[0], params[1]),
-#          label='Fitted function')
-# 
-# plt.legend(loc='best')
-# 
-# plt.show()
+def combine_var(lst1, lst2, lst3):
+    lst = []
+    lst.append(lst1).append(lst2).append(lst3)
+    return lst
+
+def mult_reg(lst1,lst2, lst3, y):
+    lm = linear_model.LinearRegression()
+    model = lm.fit(combine_var(lst1, lst2, lst3), y)
+    return model
+
+def create_prediction(model, )
+    predictions = lm.predict(X)
+    print(predictions)[0:5]
 # =============================================================================
 x_data = [1,2]
 y_data = [2,3]
