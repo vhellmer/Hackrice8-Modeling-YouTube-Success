@@ -57,4 +57,16 @@ df_yout['dislike_rate'] =  df_yout ['dislikes'] / df_yout['views'] * 100
 df_yout['comment_rate'] =  df_yout ['comment_count'] / df_yout['views'] * 100
 
 df_yout['like_to_dislike'] =  df_yout ['likes'] / df_yout['dislikes']
-print(df_yout['like_to_dislike'])
+#print(df_yout['like_to_dislike'])
+
+df_yout['area'] = df_yout['views'] / 100000
+df_yout['float']
+
+def plot(x,y,xlabel,ylabel):
+    plt.scatter(x, y, 1, "blue")
+    plt.plot(np.unique(x), np.poly1d(np.polyfit(x, y, 1))(np.unique(x)))
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.show()
+
+plot(df_yout['views'],df_yout['like_to_dislike'],'views','likes per dislike')
