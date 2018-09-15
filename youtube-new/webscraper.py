@@ -18,9 +18,8 @@ driver = webdriver.Chrome()
 
 vid_dict = defaultdict(list)
 url_list = url_list[1:]
-count = 0
 
-for i in range(300, 500):
+for i in range(500, 1000):
     url = url_list[i]
     vid_dict[url] = []
     try:
