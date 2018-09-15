@@ -1,14 +1,9 @@
 import csv
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import TimeoutException
-from time import sleep
+
 
 url_list = []
 with open('USvideos.csv') as csv_file:
@@ -20,33 +15,52 @@ with open('USvideos.csv') as csv_file:
 # Opens chrome (MUST have selenium plugin in PATH or will cause an error)
 driver = webdriver.Chrome()
 
-# File for strains to be written to
-# new_file = open("current_video_data.csv", "w")
+vid_dict = {}
 url_list = url_list[1:]
+
+
+
 for url in url_list:
     driver.get("https://www.youtube.com/watch?v=" + url)
-    sleep(2)
+    vid_dict[url] = []
+
     try:
         element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="count"]/yt-view-count-renderer/span[1]'))
         wait(driver, 5).until(element_present)
         views = driver.find_element_by_xpath('//*[@id="count"]/yt-view-count-renderer/span[1]').text
-        print(views)
+        vid_dict[url].append(str(views).split(" ")[0])
     except:
-       print("views failed: ", url)
+        print("views failed: ", url)
+        vid_dict[url].append(0)
 
-    sleep(3)
-    likes = driver.find_element_by_xpath('//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]/a').text
-    print(likes)
-    #print("likes failed: ", url)
-    #try:
-        #dislikes = driver.find_element_by_xpath('//*[@id="text"]').text
-        #print(dislikes)
-    #except:
-        #print("dislikes failed: ", url)
     try:
+        element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]/a'))
+        wait(driver, 5).until(element_present)
+        likes = driver.find_element_by_xpath('//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]/a').find_element_by_id("text").get_attribute("aria-label")
+        vid_dict[url].append(str(likes).split(" ")[0])
+    except:
+        print("likes failed: ", url)
+        vid_dict[url].append(0)
+
+    try:
+        element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[2]/a'))
+        wait(driver, 5).until(element_present)
+        dislikes = driver.find_element_by_xpath('//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[2]/a').find_element_by_id("text").get_attribute("aria-label")
+        vid_dict[url].append(str(dislikes).split(" ")[0])
+    except:
+        print("dislikes failed: ", url)
+        vid_dict[url].append(0)
+
+    try:
+        element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="count"]/yt-formatted-string'))
+        wait(driver, 5).until(element_present)
         comments = driver.find_element_by_xpath('//*[@id="count"]/yt-formatted-string').text
-        print(comments)
+        vid_dict[url].append(str(comments).split(" ")[0])
     except:
         print("comments failed: ", url)
+        vid_dict[url].append(0)
+
+csv_file = open('new_vid_data.csv', 'wb')
+writer = csv.writer(csv_file, vid_dict.keys())
 
 driver.close()
