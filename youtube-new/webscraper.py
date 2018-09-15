@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from collections import defaultdict
 
 
 url_list = []
@@ -15,7 +16,7 @@ with open('USvideos.csv') as csv_file:
 # Opens chrome (MUST have selenium plugin in PATH or will cause an error)
 driver = webdriver.Chrome()
 
-vid_dict = {}
+vid_dict = defaultdict(list)
 url_list = url_list[1:]
 count = 0
 
@@ -30,7 +31,7 @@ for url in url_list:
         vid_dict[url].append(str(views).split(" ")[0])
     except:
         print("views failed: ", url)
-        vid_dict[url].append(0)
+        vid_dict[url].append(str(0))
 
     try:
         element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]/a'))
@@ -39,7 +40,7 @@ for url in url_list:
         vid_dict[url].append(str(likes).split(" ")[0])
     except:
         print("likes failed: ", url)
-        vid_dict[url].append(0)
+        vid_dict[url].append(str(0))
 
     try:
         element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[2]/a'))
@@ -48,7 +49,7 @@ for url in url_list:
         vid_dict[url].append(str(dislikes).split(" ")[0])
     except:
         print("dislikes failed: ", url)
-        vid_dict[url].append(0)
+        vid_dict[url].append(str(0))
 
     try:
         element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="count"]/yt-formatted-string'))
@@ -57,16 +58,18 @@ for url in url_list:
         vid_dict[url].append(str(comments).split(" ")[0])
     except:
         print("comments failed: ", url)
-        vid_dict[url].append(0)
+        vid_dict[url].append(str(0))
     count = count + 1
+    print(vid_dict)
     if count == 3:
         break
 
 csv_file = open('new_vid_data.csv', 'w')
 writer = csv.writer(csv_file)
-writer.writerow(vid_dict.keys())
-for lst in vid_dict:
-    writer.writerow(lst)
+writer.writerow(["video id", "views", "likes", "dislikes", "comment_count"])
+for key, value in vid_dict.items():
+    value.insert(0, key)
+    writer.writerow(value)
 
 csv_file.close()
 driver.close()
