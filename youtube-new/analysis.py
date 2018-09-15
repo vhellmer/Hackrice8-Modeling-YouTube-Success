@@ -60,13 +60,13 @@ df_yout['like_to_dislike'] =  df_yout ['likes'] / df_yout['dislikes']
 #print(df_yout['like_to_dislike'])
 
 df_yout['area'] = df_yout['views'] / 100000
+df_yout['float']
 
-def convert_to_list(input):
-    output = []
-    for item in input:
-        output += [item]
-    return output
+def plot(x,y,xlabel,ylabel):
+    plt.scatter(x, y, 1, "blue")
+    plt.plot(np.unique(x), np.poly1d(np.polyfit(x, y, 1))(np.unique(x)))
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.show()
 
-#plt.scatter(convert_to_list(df_yout['likes_log']),convert_to_list(df_yout['dislikes_log']),convert_to_list(df_yout['area']),"blue",alpha = 0.1)
-plt.scatter(df_yout['views'],df_yout['like_to_dislike'],1,"green")
-plt.show()
+plot(df_yout['views'],df_yout['like_to_dislike'],'views','likes per dislike')
