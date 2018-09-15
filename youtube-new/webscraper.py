@@ -20,10 +20,19 @@ vid_dict = defaultdict(list)
 url_list = url_list[1:]
 count = 0
 
-for i in range(0, 100):
+for i in range(150, 300):
     url = url_list[i]
-    driver.get("https://www.youtube.com/watch?v=" + url)
     vid_dict[url] = []
+    try:
+        driver.get("https://www.youtube.com/watch?v=" + url)
+    except:
+        print("website failed to load")
+        vid_dict[url].append(str(0))
+        vid_dict[url].append(str(0))
+        vid_dict[url].append(str(0))
+        vid_dict[url].append(str(0))
+        continue
+
 
     try:
         element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="count"]/yt-view-count-renderer/span[1]'))
@@ -31,9 +40,12 @@ for i in range(0, 100):
         views = driver.find_element_by_xpath('//*[@id="count"]/yt-view-count-renderer/span[1]').text
         vid_dict[url].append(str(views).split(" ")[0])
     except:
-        # break
         print("views failed: ", url)
         vid_dict[url].append(str(0))
+        vid_dict[url].append(str(0))
+        vid_dict[url].append(str(0))
+        vid_dict[url].append(str(0))
+        continue
 
     try:
         element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]/a'))
@@ -63,9 +75,9 @@ for i in range(0, 100):
         vid_dict[url].append(str(0))
 
 
-csv_file = open('new_vid_data.csv', 'w')
+csv_file = open('new_vid_data.csv', 'a')
 writer = csv.writer(csv_file)
-writer.writerow(["video id", "views", "likes", "dislikes", "comment_count"])
+# writer.writerow(["video id", "views", "likes", "dislikes", "comment_count"])
 for key, value in vid_dict.items():
     value.insert(0, key)
     writer.writerow(value)
