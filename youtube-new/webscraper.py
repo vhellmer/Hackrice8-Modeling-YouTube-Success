@@ -17,8 +17,7 @@ driver = webdriver.Chrome()
 
 vid_dict = {}
 url_list = url_list[1:]
-
-
+count = 0
 
 for url in url_list:
     driver.get("https://www.youtube.com/watch?v=" + url)
@@ -59,8 +58,15 @@ for url in url_list:
     except:
         print("comments failed: ", url)
         vid_dict[url].append(0)
+    count = count + 1
+    if count == 3:
+        break
 
-csv_file = open('new_vid_data.csv', 'wb')
-writer = csv.writer(csv_file, vid_dict.keys())
+csv_file = open('new_vid_data.csv', 'w')
+writer = csv.writer(csv_file)
+writer.writerow(vid_dict.keys())
+for lst in vid_dict:
+    writer.writerow(lst)
 
+csv_file.close()
 driver.close()
