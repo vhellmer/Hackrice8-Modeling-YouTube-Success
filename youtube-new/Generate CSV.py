@@ -35,6 +35,7 @@ def new_cvs(original_stats, new_stats):
     vid_dict = {}
     for url in url_list:
         if url in url_dict:
+
             # publish time, views, likes, dislikes, comment_count
             publishing_time = url_dict[url][4]
             views = float(url_dict[url][6])
@@ -44,7 +45,8 @@ def new_cvs(original_stats, new_stats):
             new_views = new_url_dict[url][0]
             views_change = new_views - views
 
-            vid_dict[url] = [publishing_time, views, likes, dislikes, comment_count, new_views, views_change]
+            if new_views != 0:
+                vid_dict[url] = [publishing_time, views, likes, dislikes, comment_count, new_views, views_change]
 
     #create the csv file
     csv_file = open('combined.csv', 'w')
