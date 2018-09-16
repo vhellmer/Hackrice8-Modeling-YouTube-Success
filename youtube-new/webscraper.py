@@ -21,7 +21,7 @@ driver = webdriver.Chrome()
 vid_dict = defaultdict(list)
 
 # Goes through a section of urls in list
-for i in range(15000, 25000, 20):
+for i in range(25000, 35000, 20):
 
     url = url_list[i]
     vid_dict[url] = []
