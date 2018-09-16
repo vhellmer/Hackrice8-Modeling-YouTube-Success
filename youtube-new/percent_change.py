@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import generate_csv2
 
-data = pd.read_csv("combined2.csv")
+data = pd.read_csv("combined3.csv")
 
 def plot(x,y,xlabel,ylabel):
     plt.scatter(x, y, 1, "blue")

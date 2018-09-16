@@ -53,12 +53,13 @@ def new_cvs(original_stats, new_stats):
                 vid_dict[url] = [publishing_time, views, likes, dislikes, comment_count, new_views, new_likes, new_dislikes, new_comment_count, views_change, likes_change, dislikes_change, comment_count_change]
 
     # create the csv file
-    csv_file = open('combined2.csv', 'w')
+    csv_file = open('combined3.csv', 'w')
     writer = csv.writer(csv_file)
     writer.writerow(["video_id", "publish_time","views", "likes", "dislikes", "comment_count","new_views", "new likes", "new dislikes", "new comment_count", "views_change", "likes_change", "dislikes_change", "comment_count_change"])
     for key, value in vid_dict.items():
-        value.insert(0, key)
-        writer.writerow(value)
+        if(value[11]/float(value[3]+0.00001) < 8 and value[10]/float(value[2] + 0.00001) < 20):
+            value.insert(0, key)
+            writer.writerow(value)
 
     csv_file.close()
 

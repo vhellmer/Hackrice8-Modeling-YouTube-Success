@@ -21,7 +21,7 @@ driver = webdriver.Chrome()
 vid_dict = defaultdict(list)
 
 # Goes through a section of urls in list
-for i in range(3500, 4000):
+for i in range(15000, 25000, 20):
 
     url = url_list[i]
     vid_dict[url] = []
@@ -40,7 +40,7 @@ for i in range(3500, 4000):
     # Tries to get views, fails if video is taken down
     try:
         element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="count"]/yt-view-count-renderer/span[1]'))
-        wait(driver, 5).until(element_present)
+        wait(driver, 3).until(element_present)
         views = driver.find_element_by_xpath('//*[@id="count"]/yt-view-count-renderer/span[1]').text
         vid_dict[url].append(str(views).split(" ")[0])
     except:
@@ -51,42 +51,42 @@ for i in range(3500, 4000):
         vid_dict[url].append(str(0))
         continue
 
-    # Tries to get likes
-    try:
-        element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]/a'))
-        wait(driver, 5).until(element_present)
-        likes = driver.find_element_by_xpath('//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]/a').find_element_by_id("text").get_attribute("aria-label")
-        vid_dict[url].append(str(likes).split(" ")[0])
-    except:
-        print("likes failed: ", url)
-        vid_dict[url].append(str(0))
-
-    # Tries to get dislikes
-    try:
-        element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[2]/a'))
-        wait(driver, 5).until(element_present)
-        dislikes = driver.find_element_by_xpath('//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[2]/a').find_element_by_id("text").get_attribute("aria-label")
-        vid_dict[url].append(str(dislikes).split(" ")[0])
-    except:
-        print("dislikes failed: ", url)
-        vid_dict[url].append(str(0))
-
-    # Tries to get comment_count, may fail if comments are disabled
-    try:
-        element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="count"]/yt-formatted-string'))
-        wait(driver, 5).until(element_present)
-        comments = driver.find_element_by_xpath('//*[@id="count"]/yt-formatted-string').text
-        vid_dict[url].append(str(comments).split(" ")[0])
-    except:
-        print("comments failed: ", url)
-        vid_dict[url].append(str(0))
+    # # Tries to get likes
+    # try:
+    #     element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]/a'))
+    #     wait(driver, 5).until(element_present)
+    #     likes = driver.find_element_by_xpath('//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]/a').find_element_by_id("text").get_attribute("aria-label")
+    #     vid_dict[url].append(str(likes).split(" ")[0])
+    # except:
+    #     print("likes failed: ", url)
+    #     vid_dict[url].append(str(0))
+    #
+    # # Tries to get dislikes
+    # try:
+    #     element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[2]/a'))
+    #     wait(driver, 5).until(element_present)
+    #     dislikes = driver.find_element_by_xpath('//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[2]/a').find_element_by_id("text").get_attribute("aria-label")
+    #     vid_dict[url].append(str(dislikes).split(" ")[0])
+    # except:
+    #     print("dislikes failed: ", url)
+    #     vid_dict[url].append(str(0))
+    #
+    # # Tries to get comment_count, may fail if comments are disabled
+    # try:
+    #     element_present = EC.presence_of_element_located((By.XPATH, '//*[@id="count"]/yt-formatted-string'))
+    #     wait(driver, 5).until(element_present)
+    #     comments = driver.find_element_by_xpath('//*[@id="count"]/yt-formatted-string').text
+    #     vid_dict[url].append(str(comments).split(" ")[0])
+    # except:
+    #     print("comments failed: ", url)
+    #     vid_dict[url].append(str(0))
 
 # Appends to existing csv file
-csv_file = open('new_vid_data.csv', 'a')
+csv_file = open('new_vid_data2.csv', 'a')
 writer = csv.writer(csv_file)
 
 #Add following line for header if making a new file:
-# writer.writerow(["video id", "views", "likes", "dislikes", "comment_count"])
+#writer.writerow(["video id", "views"])
 
 for key, value in vid_dict.items():
     value.insert(0, key)
