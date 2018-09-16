@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 #import os
 #from subprocess import check_output
-from wordcloud import WordCloud, STOPWORDS
+import tools as tl
 
 df_yout = pd.read_csv("USvideos.csv")
 
