@@ -3,8 +3,9 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import Generate_csv
+from wordcloud import WordCloud, STOPWORDS
 
-data = pd.read_csv("combined1.csv")
+data = pd.read_csv("combined2.csv")
 
 def plot(x,y,xlabel,ylabel):
     plt.scatter(x, y, 1, "blue")
@@ -23,7 +24,8 @@ def remove_outliers(x,n):
 #data['y'] = data['views_change'].apply(lambda x: remove_outliers(x, 5000000))
 data['x'] = np.log(data['comment_count'] + 1)
 data['y'] = np.log(data['views_change'] + 1)
-data['%change'] = data['views_change'] / data['views']
+#data['%change'] = data['views_change'] / data['views']
 
-#plot(data['x'], data['y'],'comment_count','views_change')
-plot(data['likes'], data['%change'],'likes','%change')
+plot(data['x'], data['y'],'comment_count','views_change')
+plot(data['x'], data['y'],'comment_count','views_change')
+
