@@ -1,4 +1,4 @@
-# hackrice8
+# hackrice8: Modeling YouTube Success
 Contains youtube analytic scripts and files
 Using multiple variables from each youtube video to predict the change in views over time.
 Y ˆ = A + B1(X1) + B2(X2) + B3(X3) + B4(X4)
