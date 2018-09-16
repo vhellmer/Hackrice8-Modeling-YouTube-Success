@@ -13,7 +13,7 @@ def new_cvs(original_stats, new_stats):
     new_url_dict = {}
     count1 = 0
     for list in new_data:
-        if count1 != 0:
+        if count1 != 0 and float(list[4].replace(',','')) != float(0):
             try:
                 new_url_dict[list[0]] = [float(list[1].replace(',','')), float(list[2].replace(',', '')), float(list[3].replace(',','')), float(list[4].replace(',',''))]
                 url_list += [list[0]]
