@@ -8,15 +8,18 @@ Created on Sat Sep 15 11:32:30 2018
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.stats import ttest_ind
 from scipy import optimize
 
 def readfile(csvfile):
-    df = pd.read_csv(csvfile, header = True)
-    
-    return df["likes"], df["dislikes"], df["publish_time"], df["]
+    df = pd.read_csv(csvfile)
+    return df["likes"], df["dislikes"], df["publish_time"], df["views_change"]
 
-likes = readfile(USvideos.csv)    
+likes = readfile("combined2.csv")[0]
+dislikes = readfile("combined2.csv")[1]
+pub = readfile("combined2.csv")[2]    
+change = readfile("combined2.csv")[3]    
+
+print (pub[:90])
 """
 Change three integers representing the date uploaded to the no. of days the video has 
 has been uploaded for
