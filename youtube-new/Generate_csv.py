@@ -49,7 +49,7 @@ def new_cvs(original_stats, new_stats):
                 vid_dict[url] = [publishing_time, views, likes, dislikes, comment_count, new_views, views_change]
 
     #create the csv file
-    csv_file = open('combined.csv', 'w')
+    csv_file = open('combined1.csv', 'w')
     writer = csv.writer(csv_file)
     writer.writerow(["video_id", "publish_time","views", "likes", "dislikes", "comment_count","new_views", "views_change"])
     for key, value in vid_dict.items():
@@ -58,4 +58,4 @@ def new_cvs(original_stats, new_stats):
 
     csv_file.close()
 
-new_cvs("USvideos.csv", "new_results.csv")
+new_cvs("USvideos.csv", "new_vid_data.csv")
