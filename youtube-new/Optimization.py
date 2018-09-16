@@ -13,10 +13,10 @@ def subsets(input):
         return children + childrenPlus
 
 
-ken2 = pd.read_csv("combine5.csv")
+ken2 = pd.read_csv("combined5.csv")
 column_list = list(ken2.columns)
-# for columns in column_list:
-#     ken2[columns] = ken2[columns].apply(np.log1p)
+for columns in column_list:
+     ken2[columns] = ken2[columns].apply(np.log1p)
 
 
 column_list = column_list[1:]
