@@ -11,7 +11,7 @@ X1 = likes; X2 = dislikes; X3 = time elapsed since the video was uploaded
 Separate data into 70% training/30% testing
 
 1. Retrieve data for just the current views from the same youtube videos 
-using the links provided in the youtube analytic scripts from Kaggik.
+using the links provided in the youtube analytic scripts from Kaggle.
 
 2. Separate the dataset into training data and testing data(70%,30%).
 
