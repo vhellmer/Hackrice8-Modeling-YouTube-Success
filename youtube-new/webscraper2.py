@@ -120,7 +120,6 @@ def make_csv(vid_dict):
     for key, value in vid_dict.items():
         value.insert(0, key)
         writer.writerow(value)
-
     csv_file.close()
 
 
